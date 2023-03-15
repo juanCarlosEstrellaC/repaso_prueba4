@@ -29,31 +29,35 @@ public class InventarioServiceImpl implements IInventarioService{
 		
 		String numero = inventario.getNumeroBodega();
 		String codigo = inventario.getCodigoMaestro();
-		BigDecimal cantidad = inventario.getCantidad();
+		Integer cantidad = inventario.getCantidad();
+		BigDecimal cantBig = new BigDecimal(cantidad);
 		
 		Bodega bod = this.iBodegaService.buscarPorNumero(numero);
 		Producto pro = this.iProductoService.buscarPorCodigo(codigo);
 		
-//		List<Inventario> l = new ArrayList<>();
-//		l.add(inventario);
-//		
-//		bod.setListaInventarioBode(l);
-//		pro.setListaInventarioProd(l);
+//		inventario.setMiBodega(bod);
+//		inventario.setMiProducto(pro);
+//		bod.getListaInventarioBode().add(inventario);
+//		pro.getListaInventarioProd().add(inventario);
 		
-		
-		inventario.setMiBodega(bod);
-		inventario.setMiProducto(pro);
-		bod.getListaInventarioBode().add(inventario);
-		pro.getListaInventarioProd().add(inventario);
+		pro.setStock(pro.getStock().add(cantBig));
 		
 		this.iBodegaService.actualizar(bod);
 		this.iProductoService.actualizar(pro);
 		
+		// En el for debo crear nuevos objetos inventarios para que funcione como pide el profesor.
+		// De todas maneras, el codigo que yo hice sí funcionaba, pero no guardaba tantos inventarios, solo uno.
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < cantidad; i++) {
+			Inventario inv = new Inventario();
+			inv.setMiBodega(bod);
+			inv.setMiProducto(pro);
+			inv.setCantidad(cantidad);
+			inv.setCodigoMaestro(codigo);
+			inv.setNumeroBodega(numero);
 			String codInd = codigo+"_"+i;
-			inventario.setCodigoIndividual(codInd);
-			this.iInventarioRepository.guardar(inventario);
+			inv.setCodigoIndividual(codInd);
+			this.iInventarioRepository.guardar(inv);
 		}
 
 	}

@@ -28,7 +28,7 @@ public class Inventario {
 	private String codigoMaestro;
 
 	@Column(name = "inve_cantidad")
-	private BigDecimal cantidad;
+	private Integer cantidad;
 
 	@Column(name = "codigoIndividual")
 	private String codigoIndividual;
@@ -74,11 +74,11 @@ public class Inventario {
 		this.codigoMaestro = codigoMaestro;
 	}
 
-	public BigDecimal getCantidad() {
+	public Integer getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(BigDecimal cantidad) {
+	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
 
