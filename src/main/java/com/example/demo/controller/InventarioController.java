@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.modelo.Inventario;
-import com.example.demo.modelo.Producto;
-import com.example.demo.service.IBodegaService;
 import com.example.demo.service.IInventarioService;
-import com.example.demo.service.IProductoService;
 
 @Controller
 @RequestMapping("/inventarios")
@@ -32,9 +29,15 @@ public class InventarioController {
 	@PostMapping("/guardarDatosInventario")
 	public String guardarDatosInventario(Model model, Inventario inventario) {
 		model.addAttribute("inventario", inventario);
-		
+	
 		this.iInventarioService.guardar(inventario);
 		return "redirect:/inventarios/ingresarDatosInventario";
 	}
 
+	@GetMapping("/VerTodosInventario") // URL:   http://localhost:8080/inventarios/VerTodosInventario	
+	public String VerTodosInventario(Model model) {
+		List<Inventario> listaInv = this.iInventarioService.buscarTodos();
+		model.addAttribute("listaInv", listaInv);
+		return "vistaInventarioTodos";
+	}
 }

@@ -24,4 +24,9 @@ public class ProductoServiceImpl implements IProductoService{
 		return this.iProductoRepository.buscarPorCodigo(codigo);
 	}
 
+	@Override
+	public void actualizar(Producto pro) {
+		this.iProductoRepository.actualizar(pro);
+	}
+
 }

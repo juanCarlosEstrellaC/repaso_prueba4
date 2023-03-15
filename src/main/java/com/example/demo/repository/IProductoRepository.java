@@ -8,4 +8,6 @@ public interface IProductoRepository {
 
 	public Producto buscarPorCodigo(String codigo);
 
+	public void actualizar(Producto pro);
+
 }

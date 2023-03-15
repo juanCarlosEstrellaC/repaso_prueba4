@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,9 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.modelo.Bodega;
 import com.example.demo.modelo.Inventario;
 import com.example.demo.modelo.Producto;
-import com.example.demo.repository.IBodegaRepository;
 import com.example.demo.repository.IInventarioRepository;
-import com.example.demo.repository.IProductoRepository;
 
 @Service
 public class InventarioServiceImpl implements IInventarioService{
@@ -34,15 +34,33 @@ public class InventarioServiceImpl implements IInventarioService{
 		Bodega bod = this.iBodegaService.buscarPorNumero(numero);
 		Producto pro = this.iProductoService.buscarPorCodigo(codigo);
 		
-		bod.getListaInventarioBode().add(inventario);
-		this.iBodegaService.actualizar(bod);
+//		List<Inventario> l = new ArrayList<>();
+//		l.add(inventario);
+//		
+//		bod.setListaInventarioBode(l);
+//		pro.setListaInventarioProd(l);
 		
-//		for (int i = 0; i < cantidad.longValue(); i++) {
-//			String codInd = codigo+"_"+i;
-//			this.iInventarioRepository.guardar(inventario);
-//
-//		}
+		
+		inventario.setMiBodega(bod);
+		inventario.setMiProducto(pro);
+		bod.getListaInventarioBode().add(inventario);
+		pro.getListaInventarioProd().add(inventario);
+		
+		this.iBodegaService.actualizar(bod);
+		this.iProductoService.actualizar(pro);
+		
+		
+		for (int i = 0; i < 5; i++) {
+			String codInd = codigo+"_"+i;
+			inventario.setCodigoIndividual(codInd);
+			this.iInventarioRepository.guardar(inventario);
+		}
 
+	}
+
+	@Override
+	public List<Inventario> buscarTodos() {
+		return this.iInventarioRepository.buscarTodos();
 	}
 
 }

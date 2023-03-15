@@ -29,4 +29,9 @@ public class ProductoRepositoryImpl implements IProductoRepository {
 		return (Producto)query.getSingleResult();
 	}
 
+	@Override
+	public void actualizar(Producto pro) {
+		this.entityManager.merge(pro);
+	}
+
 }
